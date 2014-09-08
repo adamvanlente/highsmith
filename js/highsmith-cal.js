@@ -39,6 +39,7 @@ var Highsmith = function(elementId, userOptions) {
         killButton: false,
         resetDateButton: false,
         disableOffClicker: false,
+        futureOnly: false,
 
         style: {
 
@@ -421,6 +422,9 @@ var Highsmith = function(elementId, userOptions) {
         for (var i = 0; i < daysInMonth; i++) {
             var date = i + 1;
 
+            var theDay = new Date(year, month, date);
+            var isFuture = (theDay - new Date()) > 0
+
             // Highlight today on the calendar.
             if (day == date && month == new Date().getMonth()) {
               date = '<b>' + date + '</b>';
@@ -439,17 +443,38 @@ var Highsmith = function(elementId, userOptions) {
               dateElement.style.verticalAlign = 'top';
               dateElement.style.cursor = 'pointer';
               dateElement.style.transition = 'all 0.2s';
-
-              dateElement.addEventListener('mouseenter', function(e) {
-                  e.target.style.backgroundColor = '#DCDCDC';
-              });
-
-              dateElement.addEventListener('mouseleave', function(e) {
-                  e.target.style.background = 'none';
-              });
             }
 
-            dateElement.addEventListener('click', setDateToInput);
+            if (options.futureOnly) {
+                if (isFuture) {
+
+                  dateElement.addEventListener('click', setDateToInput);
+
+                  if (!options.style.disable) {
+                      dateElement.addEventListener('mouseenter', function(e) {
+                          e.target.style.backgroundColor = style.legendBgColor;
+                      });
+
+                      dateElement.addEventListener('mouseleave', function(e) {
+                          e.target.style.background = 'none';
+                      });
+                  }
+
+                } else {
+                  dateElement.style.opacity = "0.2";
+                }
+            } else {
+                dateElement.addEventListener('click', setDateToInput);
+                dateElement.addEventListener('mouseenter', function(e) {
+                    e.target.style.backgroundColor = style.legendBgColor;
+                });
+
+                dateElement.addEventListener('mouseleave', function(e) {
+                    e.target.style.background = 'none';
+                });
+            }
+
+
             dateHolder.appendChild(dateElement);
         }
 

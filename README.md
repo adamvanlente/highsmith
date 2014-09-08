@@ -43,6 +43,7 @@ Highsmith comes with default options.  Any of these can be customized by sending
     killButton: false, // kills calendar
     resetDateButton: false, // resets calendar to current date
     disableOffClicker: false,  // calendar dissapears on offclick
+		futureOnly: false, // user can only select future dates if true
 
     style: {
 
