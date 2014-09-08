@@ -459,6 +459,9 @@ var Highsmith = function(elementId, userOptions) {
     function styleCal(cal, x, y) {
 
         var style = options.style.globals;
+        var location = el.getBoundingClientRect();
+        var trueTop =
+            (location.top + document.body.scrollTop + location.height);
 
         if (!options.style.disable) {
 
@@ -471,8 +474,8 @@ var Highsmith = function(elementId, userOptions) {
             cal.style.display = 'block';
             cal.style.position = 'absolute';
             cal.style.zIndex = '10000';
-            cal.style.top = y + 'px';
-            cal.style.left = x + 'px';
+            cal.style.top = trueTop  + 'px';
+            cal.style.left = location.left + 'px';
             cal.style.textAlign = 'center';
         }
         return cal;

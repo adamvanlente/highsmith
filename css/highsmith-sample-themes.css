@@ -86,11 +86,12 @@
     display: block;
     background-color: #dbcbcb;
     text-align: left; }
-  .custom-style-cal .highsmithCal--offClicker {
-    display: block;
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    z-index: 9999; }
+
+.highsmithCal--offClicker {
+  display: block;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 9999; }

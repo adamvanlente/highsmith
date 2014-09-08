@@ -1,6 +1,6 @@
 ## Highsmith Calendar Picker
 
-Highsmith is a simple calendar picker.  It has several customization options, and does note require jQuery or any additional CSS.  Simply attach Highsmith to an input/element.  When you select a date on the calendar, its value will be placed into your input/element.
+Highsmith is a simple calendar picker.  It has several customization options, and does not require jQuery or any additional CSS.  Simply attach Highsmith to an input/element.  When you select a date on the calendar, its value will be placed into your input/element.
 
 ## Invoking Highsmith
 
@@ -8,10 +8,10 @@ To acheive the default Highsmith calendar, simply invoke Highsmith on your desir
 
 	// html
 	<input type="text" id="default-cal"/>
-	
+
 	// js
 	var defaultCal = new Highsmith('default-cal');
-	
+
 ![Alt text](img/default.png)
 
 ## Customizing Highsmith
@@ -25,7 +25,7 @@ Highsmith accepts several options for customization.  The full range of options 
 	};
 	var cal = new Highsmith('my-cal', options);
 
-###### Custom options on existing calendar	
+###### Custom options on existing calendar
 	var options = {
 		resetDateButton: true,
 		killButton: true
@@ -132,13 +132,13 @@ Highsmith can receive custom styling.  Here are a list of classes you can use to
     highsmithCal--year__decrement
 
     highsmithCal--daysLegend
-    
+
     highsmithCal--daysLegend__label
 
     highsmithCal--dayHolder
-    
+
     highsmithCal--dayHolder__nullLabel
-    
+
     highsmithCal--dayHolder__label
 
     highsmithCal--killButton
