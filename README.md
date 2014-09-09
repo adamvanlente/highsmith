@@ -45,6 +45,11 @@ Highsmith comes with default options.  Any of these can be customized by sending
     disableOffClicker: false,  // calendar dissapears on offclick
 		futureOnly: false, // user can only select future dates if true
 
+		// Input fields are assumed to be empty.  Use customDate if your field will
+		// already have a value in it.  Calendar will start from that day as
+		// instead of the default (today).
+		customDate: false,
+
     style: {
 
       disable: false, // Disables styling all together if true

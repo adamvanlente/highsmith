@@ -28,14 +28,11 @@ var Highsmith = function(elementId, userOptions) {
         return el;
     }
 
-    // The element being Highsmithed.
-    var el = get(elementId);
-    el.readOnly = true;
-
     // Default options, if none have been passed.
     var defaultOptions = {
 
         format: 'mdy',
+        customDate: false,
         killButton: false,
         resetDateButton: false,
         disableOffClicker: false,
@@ -117,6 +114,21 @@ var Highsmith = function(elementId, userOptions) {
 
     // Update the options with any options passed by the user.
     updateOptions(userOptions);
+
+    // The element being Highsmithed.
+    var el = get(elementId);
+    el.readOnly = true;
+
+    // Set the starting date of the Cal.
+    var currentCalendarDate;
+    if (options.customDate) {
+        var dt = el.value;
+        var dtArray = dt.split('/');
+        dt = dtArray.join('/');
+        currentCalendarDate = new Date(dt);
+    } else {
+        currentCalendarDate = new Date();
+    }
 
     // The id of the calendar item.
     var calIdentity = el.className ?
@@ -423,10 +435,10 @@ var Highsmith = function(elementId, userOptions) {
             var date = i + 1;
 
             var theDay = new Date(year, month, date);
-            var isFuture = (theDay - new Date()) > 0
+            var isFuture = (theDay - new Date()) > 0;
 
             // Highlight today on the calendar.
-            if (day == date && month == new Date().getMonth()) {
+            if (day == date && month == currentCalendarDate.getMonth()) {
               date = '<b>' + date + '</b>';
             }
             var dateElement = create('label', 'highsmithCal--dayHolder__label',
@@ -565,7 +577,7 @@ var Highsmith = function(elementId, userOptions) {
 
     // Reset to the default date, which is today's month/day.
     function resetToToday() {
-        var date = new Date();
+        var date = currentCalendarDate;
 
         month = date.getMonth();
         year = date.getFullYear();
