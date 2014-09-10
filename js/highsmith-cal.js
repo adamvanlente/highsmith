@@ -6,7 +6,71 @@
 
 var Highsmith = function(elementId, userOptions) {
 
-    // A couple dom helper functions.
+    var colors = {
+        ltGray : '#F1F1F1',
+        gray   : '#DCDCDC',
+        mdGray : 'rgb(202, 201, 201)',
+        dkGray : '#333333',
+        white  : "#FFFFFF"
+    }
+
+    // Default options, if none have been passed.
+    var defaultOptions = {
+
+        format              : 'mdy',
+        customDate          : false,
+        killButton          : false,
+        resetDateButton     : false,
+        disableOffClicker   : false,
+        futureOnly          : false,
+        style               : {
+          disable           : false,
+          month             : {
+              bgColor       : colors.ltGray,
+              color         : colors.dkGray,
+              fontFamily    : 'Georgia, serif',
+              fontSize      : '16px',
+              labelSize     : '80%',
+              padding       : '4px',
+              toggleSize    : '10%'
+
+          },
+          year              : {
+              bgColor       : colors.ltGray,
+              color         : colors.dkGray,
+              fontFamily    : 'Georgia, serif',
+              fontSize      : '14px',
+              labelSize     : '60%',
+              padding       : '4px',
+              toggleSize    : '10%'
+          },
+          days              : {
+              bgColor       : colors.ltGray,
+              color         : colors.dkGray,
+              fontFamily    : 'Georgia, serif',
+              fontSize      : '13px',
+              height        : '16px',
+              legendBgColor : colors.gray,
+              legendColor   : colors.dkGray,
+              nullBgColor   : colors.mdGray,
+              padding       : '4px',
+              width         : '20px'
+          },
+          globals: {
+              fontFamily    : 'Georgia, serif',
+              bgColor       : colors.white,
+              border        : '1px solid ' + colors.ltGray,
+              borderRadius  : '2px',
+              downArrowIcon : '&#8672;',
+              upArrowIcon   : '&#8674;',
+              width         : '200px'
+          },
+          buttons           : {
+              fontSize      : '12px',
+              padding       : '4px'
+          }
+        }
+    };
 
     // Get an element.
     function get(id) {
@@ -17,118 +81,46 @@ var Highsmith = function(elementId, userOptions) {
     function create(type, id, content) {
         var el = document.createElement(type);
 
-        id = id || '';
-        className = id || '';
-        content = content || '';
+        id            = id || '';
+        content       = content || '';
+        var className = id || '';
 
-        el.id = id;
-        el.className = className;
-        el.innerHTML = content;
+        el.id         = id;
+        el.className  = className;
+        el.innerHTML  = content;
 
         return el;
     }
 
-    // Default options, if none have been passed.
-    var defaultOptions = {
-
-        format: 'mdy',
-        customDate: false,
-        killButton: false,
-        resetDateButton: false,
-        disableOffClicker: false,
-        futureOnly: false,
-
-        style: {
-
-          disable: false,
-
-          month: {
-
-              bgColor: '#F1F1F1',
-              color: '#333',
-              fontFamily: false,
-              fontSize: '16px',
-              labelSize: '80%',
-              padding: '4px',
-              toggleSize: '10%'
-
-          },
-
-          year: {
-
-              bgColor: '#F1F1F1',
-              color: '#777',
-              fontFamily: false,
-              fontSize: '14px',
-              labelSize: '60%',
-              padding: '4px',
-              toggleSize: '10%'
-
-          },
-
-          days: {
-
-              bgColor: '#F1F1F1',
-              color: '#333',
-              fontFamily: false,
-              fontSize: '13px',
-              height: '16px',
-              legendBgColor: '#DCDCDC',
-              legendColor: '#333',
-              nullBgColor: '#FAFAFA',
-              padding: '4px',
-              width: '20px'
-
-          },
-
-          globals: {
-              fontFamily: 'Georgia, serif',
-              bgColor: '#FFFFFF',
-              border: '1px solid #F1F1F1',
-              borderRadius: '2px',
-              downArrowIcon: '&#8672;',
-              upArrowIcon: '&#8674;',
-              width: '200px'
-
-          },
-
-          buttons: {
-              fontSize: '12px',
-              padding: '4px'
-          }
-
+    function getCurrentCalendarDate() {
+        if (options.customDate && el.value && el.value != '') {
+            return new Date(el.value) == 'Invalid Date' ?
+                new Date() : new Date(el.value);
+        } else {
+            return new Date();
         }
-
-    };
+    }
 
     // Days of the week, in order.
-    var dayList = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday',
+    var dayList     = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday',
         'Friday', 'Saturday'];
 
     // Months of the year.
-    var monthList = [ 'January', 'February', 'March', 'April', 'May', 'June',
+    var monthList   = [ 'January', 'February', 'March', 'April', 'May', 'June',
         'July', 'August', 'September', 'October', 'November', 'December'];
 
     // Capture the default options as the current options.
-    var options = defaultOptions;
+    var options     = defaultOptions;
 
     // Update the options with any options passed by the user.
     updateOptions(userOptions);
 
     // The element being Highsmithed.
-    var el = get(elementId);
-    el.readOnly = true;
+    var el          = get(elementId);
+    el.readOnly     = true;
 
     // Set the starting date of the Cal.
-    var currentCalendarDate;
-    if (options.customDate) {
-        var dt = el.value;
-        var dtArray = dt.split('/');
-        dt = dtArray.join('/');
-        currentCalendarDate = new Date(dt);
-    } else {
-        currentCalendarDate = new Date();
-    }
+    var currentCalendarDate = getCurrentCalendarDate();
 
     // The id of the calendar item.
     var calIdentity = el.className ?
@@ -153,16 +145,12 @@ var Highsmith = function(elementId, userOptions) {
             removeCalendar();
         }
 
-        // Get the x & y coords of where the click occurred.
-        var x = event.clientX;
-        var y = event.clientY;
-
         // Set a div behind the cal.  Allows the calendar to close when the user
         // clicks away from it.
         setupOffClicker();
 
         // Create the calendar element.
-        setupCalendar(x, y);
+        setupCalendar();
 
     }
 
@@ -172,16 +160,19 @@ var Highsmith = function(elementId, userOptions) {
         if (!options.disableOffClicker) {
             var div = create('div', 'highsmithCal--offClicker');
             if (!options.style.disable) {
-                div.style.display = 'block';
-                div.style.position = 'fixed';
-                div.style.top = 0 + 'px';
-                div.style.left = 0 + 'px';
-                div.style.bottom = 0 + 'px';
-                div.style.right = 0 + 'px';
-                div.style.zIndex = '9999';
+                var styleOptions = {
+                  'display'   : 'block',
+                  'position'  : 'fixed',
+                  'top'       : 0 + 'px',
+                  'left'      : 0 + 'px',
+                  'bottom'    : 0 + 'px',
+                  'right'     : 0 + 'px',
+                  'zIndex'    : '9999'
+                };
+                styleElement(div, styleOptions);
             }
-            document.body.appendChild(div);
 
+            document.body.appendChild(div);
             // Close the calendar if the user clicks 'off' of it.
             div.addEventListener('click', function() {
                 removeCalendar();
@@ -190,7 +181,7 @@ var Highsmith = function(elementId, userOptions) {
     }
 
     // Set up the calendar dom elements
-    function setupCalendar(x, y) {
+    function setupCalendar() {
 
         var cal = create('div', calIdentity);
 
@@ -201,7 +192,7 @@ var Highsmith = function(elementId, userOptions) {
         addDayHolder(cal);
 
         // Add some global styles to the calendar.
-        cal = styleCal(cal, x, y);
+        cal = styleCal(cal);
 
         document.body.appendChild(cal);
 
@@ -247,22 +238,22 @@ var Highsmith = function(elementId, userOptions) {
     // Add the year label and toggles to the calendar.
     function addYear(cal) {
 
-        var style = options.style.year;
+        var style       = options.style.year;
 
         // Create a span to hold the year, as well as buttons to toggle it
         // up or down.
-        var yearSpan = create('span', 'highsmithCal--year')
+        var yearSpan    = create('span', 'highsmithCal--year')
 
         // Create a toggle icon to decrement the year.
-        var downLabel = create('label', 'highsmithCal--year__decrement',
-            options.style.globals.downArrowIcon)
+        var downLabel   = create('label', 'highsmithCal--year__decrement',
+                          options.style.globals.downArrowIcon)
 
         // Create a label
-        var yearLabel = create('label', 'highsmithCal--year__label', year);
+        var yearLabel   = create('label', 'highsmithCal--year__label', year);
 
         // Create a toggle icon to increment the year.
-        var upLabel = create('label', 'highsmithCal--year__increment',
-            options.style.globals.upArrowIcon);
+        var upLabel     = create('label', 'highsmithCal--year__increment',
+                          options.style.globals.upArrowIcon);
 
         // Decrement the year when the button is clicked.
         downLabel.addEventListener('click', function() {
@@ -280,30 +271,32 @@ var Highsmith = function(elementId, userOptions) {
     // Style the month/year divs.
     function styleMonthAndYear(span, label, up, down, style, cal) {
         if (!options.style.disable) {
+            var spanOptions   = {
+                'fontSize'        : style.fontSize,
+                'padding'         : style.padding,
+                'backgroundColor' : style.bgColor,
+                'color'           : style.color,
+                'display'         : 'block'
+            };
+            var upOptions     = {
+                'width'           : style.toggleSize,
+                'height'          : style.toggleSize,
+                'cursor'          : 'pointer'
+            };
+            var downOptions   = {
+                'width'           : style.toggleSize,
+                'height'          : style.toggleSize,
+                'cursor'          : 'pointer'
+            };
+            var labelOptions  = {
+                'width'           : style.labelSize,
+              'display'           : 'inline-block'
+            };
 
-            // Style the holder span
-            if (style.fontFamily) {
-                span.style.fontFamily = style.fontFamily;
-            }
-            span.style.fontSize = style.fontSize;
-            span.style.padding = style.padding;
-            span.style.backgroundColor = style.bgColor;
-            span.style.color = style.color;
-            span.style.display = 'block';
-
-            // style the down toggle.
-            down.style.width = style.toggleSize;
-            down.style.height = style.toggleSize;
-            down.style.cursor = 'pointer';
-
-            // Style the year label.
-            label.style.width = style.labelSize;
-            label.style.display = 'inline-block';
-
-            // Style the up toggle.
-            up.style.width = style.toggleSize;
-            up.style.height = style.toggleSize;
-            up.style.cursor = 'pointer';
+            styleElement(label, labelOptions);
+            styleElement(down, downOptions);
+            styleElement(up, upOptions);
+            styleElement(span, spanOptions);
         }
 
         // Append the year items to the year holder.
@@ -337,15 +330,16 @@ var Highsmith = function(elementId, userOptions) {
 
     // Style the kill/reset buttons.
     function styleButtons(button, clickFn) {
+        var style = options.style.buttons;
         if (!options.style.disable) {
-            var style = options.style.buttons;
-
-            button.style.fontSize = style.fontSize;
-            button.style.padding = style.padding;
-            button.style.backgroundColor = style.bgColor;
-
-            button.style.display = 'block';
-            button.style.cursor = 'pointer';
+            var styleOptions = {
+                'fontSize'        : style.fontSize,
+                'padding'         : style.padding,
+                'backgroundColor' : style.bgColor,
+                'display'         : 'block',
+                'cursor'          : 'pointer'
+            };
+            styleElement(button, styleOptions);
         }
         get('highsmithCal').appendChild(button);
         button.addEventListener('click', clickFn);
@@ -358,15 +352,14 @@ var Highsmith = function(elementId, userOptions) {
 
         var dateHolder = create('span', 'highsmithCal--daysLegend');
         if (!options.style.disable) {
-            if (style.fontFamily) {
-                dateHolder.style.fontFamily = style.fontFamily;
-            }
-            dateHolder.style.fontSize = style.fontSize;
-            dateHolder.style.color = style.color;
-            dateHolder.style.backgroundColor = style.legendBgColor;
-
-            dateHolder.style.display = 'block';
-            dateHolder.style.textAlign = 'left';
+            var styleOptions = {
+                'fontSize'          : style.fontSize,
+                'color'             : style.color,
+                'backgroundColor'   : style.legendBgColor,
+                'display'           : 'block',
+                'textAlign'         : 'left'
+            };
+            styleElement(dateHolder, styleOptions);
         }
 
         var days = ['S', 'M', 'T', 'W', 'Th', 'F', 'Sa'];
@@ -376,13 +369,15 @@ var Highsmith = function(elementId, userOptions) {
                 days[i]);
 
             if (!options.style.disable) {
-                dateElement.style.padding = style.padding;
-                dateElement.style.width = style.width;
-                dateElement.style.height = style.height;
-                dateElement.style.color = style.legendColor;
-
-                dateElement.style.display = 'inline-block';
-                dateElement.style.textAlign = 'center';
+                var styleOptions = {
+                    'padding'       : style.padding,
+                    'width'         : style.width,
+                    'height'        : style.height,
+                    'color'         : style.legendColor,
+                    'display'       : 'inline-block',
+                    'textAlign'     : 'center'
+                };
+                styleElement(dateElement, styleOptions);
             }
             dateHolder.appendChild(dateElement);
         }
@@ -396,11 +391,13 @@ var Highsmith = function(elementId, userOptions) {
 
         var dateHolder = create('span', 'highsmithCal--dayHolder');
         if (!options.style.disable) {
-            dateHolder.style.fontSize = style.fontSize;
-            dateHolder.style.backgroundColor = style.bgColor;
-
-            dateHolder.style.display = 'block';
-            dateHolder.style.textAlign = 'left';
+            var styleOptions = {
+                'fontSize': style.fontSize,
+                'backgroundColor': style.bgColor,
+                'display': 'block',
+                'textAlign': 'left'
+            };
+            styleElement(dateHolder, styleOptions)
         }
         div.appendChild(dateHolder);
     }
@@ -408,7 +405,7 @@ var Highsmith = function(elementId, userOptions) {
     // Add the actual calendar days to the calendar.
     function addDays() {
 
-        var style = options.style.days;
+        var s = options.style.days;
 
         var dateHolder = get('highsmithCal--dayHolder');
         dateHolder.innerHTML = '';
@@ -419,14 +416,16 @@ var Highsmith = function(elementId, userOptions) {
             var dateElement = create('label',
                 'highsmithCal--dayHolder__nullLabel');
             if (!options.style.disable) {
-                dateElement.style.padding = style.padding;
-                dateElement.style.width = style.width;
-                dateElement.style.height = style.height;
-                dateElement.style.backgroundColor = style.nullBgColor;
-
-                dateElement.style.display = 'inline-block';
-                dateElement.style.textAlign = 'center';
-                dateElement.style.verticalAlign = 'top';
+                var styleOptions = {
+                    'padding'         : s.padding,
+                    'width'           : s.width,
+                    'height'          : s.height,
+                    'backgroundColor' : s.nullBgColor,
+                    'display'         : 'inline-block',
+                    'textAlign'       : 'center',
+                    'verticalAlign'   : 'top'
+                };
+                styleElement(dateElement, styleOptions);
             }
             dateHolder.appendChild(dateElement);
         }
@@ -437,24 +436,28 @@ var Highsmith = function(elementId, userOptions) {
             var theDay = new Date(year, month, date);
             var isFuture = (theDay - new Date()) > 0;
 
-            // Highlight today on the calendar.
-            if (day == date && month == currentCalendarDate.getMonth()) {
-              date = '<b>' + date + '</b>';
-            }
             var dateElement = create('label', 'highsmithCal--dayHolder__label',
                 date);
 
             if (!options.style.disable) {
-              dateElement.style.padding = style.padding;
-              dateElement.style.width = style.width;
-              dateElement.style.height = style.height;
-              dateElement.style.backgroundColor = style.bgColor;
-
-              dateElement.style.display = 'inline-block';
-              dateElement.style.textAlign = 'center';
-              dateElement.style.verticalAlign = 'top';
-              dateElement.style.cursor = 'pointer';
-              dateElement.style.transition = 'all 0.2s';
+              var styleOptions = {
+                  'padding'         : s.padding,
+                  'width'           : s.width,
+                  'height'          : s.height,
+                  'backgroundColor' : s.bgColor,
+                  'display'         : 'inline-block',
+                  'textAlign'       : 'center',
+                  'verticalAlign'   : 'top',
+                  'cursor'          : 'pointer',
+                  'transition'      : 'all 0.2s'
+              };
+              // Highlight today on the calendar.
+              // console.log(day, new Date().getDate());
+              if (date == (new Date().getDate()) &&
+                  month == (new Date()).getMonth()) {
+                  styleOptions.border = '1px solid ' + s.color;
+              }
+              styleElement(dateElement, styleOptions);
             }
 
             if (options.futureOnly) {
@@ -464,7 +467,7 @@ var Highsmith = function(elementId, userOptions) {
 
                   if (!options.style.disable) {
                       dateElement.addEventListener('mouseenter', function(e) {
-                          e.target.style.backgroundColor = style.legendBgColor;
+                          e.target.style.backgroundColor = s.legendBgColor;
                       });
 
                       dateElement.addEventListener('mouseleave', function(e) {
@@ -478,7 +481,7 @@ var Highsmith = function(elementId, userOptions) {
             } else {
                 dateElement.addEventListener('click', setDateToInput);
                 dateElement.addEventListener('mouseenter', function(e) {
-                    e.target.style.backgroundColor = style.legendBgColor;
+                    e.target.style.backgroundColor = s.legendBgColor;
                 });
 
                 dateElement.addEventListener('mouseleave', function(e) {
@@ -493,7 +496,7 @@ var Highsmith = function(elementId, userOptions) {
     }
 
     // Give the calendar some global stylings.
-    function styleCal(cal, x, y) {
+    function styleCal(cal) {
 
         var style = options.style.globals;
         var location = el.getBoundingClientRect();
@@ -501,19 +504,20 @@ var Highsmith = function(elementId, userOptions) {
             (location.top + document.body.scrollTop + location.height);
 
         if (!options.style.disable) {
-
-            cal.style.fontFamily = style.fontFamily;
-            cal.style.border = style.border;
-            cal.style.backgroundColor = style.bgColor;
-            cal.style.width = style.width;
-            cal.style.borderRadius = style.borderRadius;
-
-            cal.style.display = 'block';
-            cal.style.position = 'absolute';
-            cal.style.zIndex = '10000';
-            cal.style.top = trueTop  + 'px';
-            cal.style.left = location.left + 'px';
-            cal.style.textAlign = 'center';
+            var styleOptions = {
+                'fontFamily'        : style.fontFamily,
+                'border'            : style.border,
+                'backgroundColor'   : style.bgColor,
+                'width'             : style.width,
+                'borderRadius'      : style.borderRadius,
+                'display'           : 'block',
+                'position'          : 'absolute',
+                'zIndex'            : '10000',
+                'top'               : trueTop  + 'px',
+                'left'              : location.left + 'px',
+                'textAlign'         : 'center',
+            };
+            styleElement(cal, styleOptions);
         }
         return cal;
     }
@@ -639,9 +643,19 @@ var Highsmith = function(elementId, userOptions) {
         }
     }
 
+    function styleElement(element, opts) {
+        for (opt in opts) {
+            element.s(opt, opts[opt]);
+        }
+    }
+
     // Custom function to remove a dom element without knowing its parent.
     Element.prototype.remove = function() {
         this.parentElement.removeChild(this);
+    }
+
+    Element.prototype.s = function(param, value) {
+        this.style[param] = value;
     }
 
     // Add the calendar event listener to the Highsmithed element.
