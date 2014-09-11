@@ -430,8 +430,11 @@ var Highsmith = function(elementId, userOptions) {
             dateHolder.appendChild(dateElement);
         }
 
-        for (var i = 0; i < daysInMonth; i++) {
-            var date = i + 1;
+        var dayOne = new Date(year, month, 1);
+        var lastDate = new Date(year, (month + 1), 1);
+        var daysInMonth = (lastDate - dayOne) / (1000 * 60 * 60 * 24);
+
+        for (var date = 1; date <= daysInMonth; date++) {
 
             var theDay = new Date(year, month, date);
             var isFuture = (theDay - new Date()) > 0;
