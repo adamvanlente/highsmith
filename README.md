@@ -44,7 +44,7 @@ This calendar will be the result of the above customizations (per the options, b
 ## All Options
 Highsmith comes with default options.  Any of these can be customized by sending a full or partial options object to your Highsmith instance.
 
-    //  Adjust the output format.  Accepts mdy, ydm and dmy
+		//  Adjust the output format.  Accepts mdy, ydm and dmy
 		format: 'mdy',
 
 		// If set to true, the user is given a 'remove calendar button'.  This
@@ -55,7 +55,7 @@ Highsmith comes with default options.  Any of these can be customized by sending
 		// A true value here exposes a reset button.  This button brings the calendar
 		// back to its starting date (eg the user has scrolled far ahead, and wants
 		// to jump back to today.)
-    resetDateButton: false,
+		resetDateButton: false,
 
 		// By default, highsmith creates an additional DOM element that appears in
 		// the background, clearing away the calendar with an offclick.  A true
@@ -71,67 +71,67 @@ Highsmith comes with default options.  Any of these can be customized by sending
 		// true will cause the calendar to open to that date, rather than today.
 		customDate: false,
 
-    style: {
+		style: {
 
-      disable: false, // Disables styling all together if true
+		  disable: false, // Disables styling all together if true
 
 			// Insert custom values for any of the items below.
-      month: {
+		  month: {
 
-          bgColor: '#F1F1F1',
-          color: '#333',
-          fontFamily: false,
-          fontSize: '16px',
-          labelSize: '80%',
-          padding: '4px',
-          toggleSize: '10%'
+		      bgColor: '#F1F1F1',
+		      color: '#333',
+		      fontFamily: false,
+		      fontSize: '16px',
+		      labelSize: '80%',
+		      padding: '4px',
+		      toggleSize: '10%'
 
-      },
+		  },
 
-      year: {
+		  year: {
 
-          bgColor: '#F1F1F1',
-          color: '#777',
-          fontFamily: false,
-          fontSize: '14px',
-          labelSize: '60%',
-          padding: '4px',
-          toggleSize: '10%'
+		      bgColor: '#F1F1F1',
+		      color: '#777',
+		      fontFamily: false,
+		      fontSize: '14px',
+		      labelSize: '60%',
+		      padding: '4px',
+		      toggleSize: '10%'
 
-      },
+		  },
 
-      days: {
+		  days: {
 
-          bgColor: '#F1F1F1',
-          color: '#333',
-          fontFamily: false,
-          fontSize: '13px',
-          height: '16px',
-          legendBgColor: '#DCDCDC',
-          legendColor: '#333',
-          nullBgColor: '#FAFAFA',
-          padding: '4px',
-          width: '20px'
+		      bgColor: '#F1F1F1',
+		      color: '#333',
+		      fontFamily: false,
+		      fontSize: '13px',
+		      height: '16px',
+		      legendBgColor: '#DCDCDC',
+		      legendColor: '#333',
+		      nullBgColor: '#FAFAFA',
+		      padding: '4px',
+		      width: '20px'
 
-      },
+		  },
 
-      globals: {
-          fontFamily: 'Georgia, serif',
-          bgColor: '#FFFFFF',
-          border: '1px solid #F1F1F1',
-          borderRadius: '2px',
-          downArrowIcon: '&#10095;',
-          upArrowIcon: '&#10094;',
-          width: '200px'
+		  globals: {
+		      fontFamily: 'Georgia, serif',
+		      bgColor: '#FFFFFF',
+		      border: '1px solid #F1F1F1',
+		      borderRadius: '2px',
+		      downArrowIcon: '&#10095;',
+		      upArrowIcon: '&#10094;',
+		      width: '200px'
 
-      },
+		  },
 
-      buttons: {
-          fontSize: '12px',
-          padding: '4px'
-      }
+		  buttons: {
+		      fontSize: '12px',
+		      padding: '4px'
+		  }
 
-    }
+		}
 
 ## Classes for styling
 
