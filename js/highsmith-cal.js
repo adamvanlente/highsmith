@@ -123,8 +123,7 @@ var Highsmith = function(elementId, userOptions) {
     var currentCalendarDate = getCurrentCalendarDate();
 
     // The id of the calendar item.
-    var calIdentity = el.className ?
-        'highsmithCal ' + el.className : 'highsmithCal';
+    var calIdentity = 'highsmithCal';
 
     // Declare the globals we'll be using for the cal.
     var month,
