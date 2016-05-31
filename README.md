@@ -2,6 +2,11 @@
 
 Highsmith is a simple calendar picker.  It has several many options for customization, and no dependencies.  Simply attach Highsmith to an input/element.  When you select a date on the calendar, its value will be placed into your input/element.
 
+## Installing Highsmith
+Highsmith is available as a bower package.  Simply:
+
+		bower install highsmith
+
 ## Invoking Highsmith
 
 To achieve the default Highsmith calendar, simply invoke Highsmith on your desired input.
