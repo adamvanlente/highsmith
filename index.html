@@ -13,29 +13,24 @@
 </head>
 <body>
 
-  <div class="wrapper">
-
-      <h1>Highsmith calendar</h1>
-
-      <p>Highsmith is a simple calendar picker.  It has several customization options, and does not require jQuery or any additional CSS.  Simply attach Highsmith to an input/element.  When you select a date on the calendar, its value will be placed into your input/element.  View the code on <a href="https://github.com/adamvanlente/highsmith">Github</a></p>
-
-
-      <div class="example">
-        <p>An example of a basic, unstyled Highsmith calendar.</p>
-<pre>
+<div class="wrapper">
+  <h1>Highsmith calendar</h1>
+  <p>Highsmith is a simple calendar picker.  It has several customization options, and does not require jQuery or any additional CSS.  Simply attach Highsmith to an input/element.  When you select a date on the calendar, its value will be placed into your input/element.  View the code on <a href="https://github.com/adamvanlente/highsmith">Github</a></p>
+  <div class="example">
+    <p>An example of a basic, unstyled Highsmith calendar.</p>
+    <pre>
 // html
 &lt;input type="text" id="default-cal"/&gt;
 
 // Invoke Highsmith on your element.
 var defaultCal = new Highsmith('default-cal');
-</pre>
-        <input type="text" id="default-cal"/>
-      </div>
+    </pre>
+    <input type="text" id="default-cal"/>
+  </div>
 
-
-      <div class="example">
-        <p>Customize Highsmith with options.</p>
-<pre>
+  <div class="example">
+    <p>Customize Highsmith with options.</p>
+    <pre>
 // html
 &lt;input type="text" id="custom-cal"/&gt;
 
@@ -53,33 +48,10 @@ var options = {
 
 // Invoke Highsmith.
 var customCal = new Highsmith('custom-cal', options);
-</pre>
-        <input type="text" id="custom-cal" value="10/11/14"/>
-      </div>
-
-
-      <div class="example">
-        <p>Give your calendar custom styling.</p>
-<pre>
-// html
-&lt;input type="text" id="custom-style-cal"/&gt;
-
-// Options
-var options = {
-  style: {
-    disable: true
-  }
-};
-
-// Create custom styles with css.  Highsmith classes are listed on <a href="https://github.com/adamvanlente/highsmith">Github</a>
-
-// Invoke Highsmith.
-var styledCal = new Highsmith('custom-style-cal', options);
-</pre>
-        <input type="text" id="custom-style-cal" class="custom-style-cal"/>
-      </div>
-
+    </pre>
+    <input type="text" id="custom-cal" value="10/11/14"/>
   </div>
+</div>
 
   <script type="text/javascript" src="js/highsmith-cal.js"></script>
   <script text="type/javascript">
@@ -102,14 +74,6 @@ var styledCal = new Highsmith('custom-style-cal', options);
 
     // Set up a default calendar.
     var customCal = new Highsmith('custom-cal', options);
-
-    var disableStyling = {
-      style: {
-        disable: true
-      }
-    };
-
-    var customStyleCal = new Highsmith('custom-style-cal', disableStyling);
 
   </script>
 
